@@ -10,6 +10,7 @@ import com.biit.liferay.access.KnowledgeBaseService;
 import com.biit.liferay.access.exceptions.AuthenticationRequired;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
+import com.biit.liferay.model.KbArticle;
 import com.biit.plugins.BasePlugin;
 
 @PluginImplementation
@@ -26,9 +27,11 @@ public class LiferayArticlePlugin extends BasePlugin {
 
 	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException,
 			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
-		if (resourcePrimaryKey != null & knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue()) != null) {
-			return knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue()).getTitle() + "\n"
-					+ knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue()).getContent();
+		if (resourcePrimaryKey != null) {
+			KbArticle article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+			if (article != null) {
+				return article.getTitle() + "\n" + article.getContent();
+			}
 		}
 		return "";
 	}
