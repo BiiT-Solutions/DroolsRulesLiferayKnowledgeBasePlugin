@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.biit.drools.plugins</groupId>
+	<artifactId>liferay-knowledge-base</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1</version>
+	<name>Liferay Knowledge Base Access For Drools Rules</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<plugin-manager.version>[0.0,0.1)</plugin-manager.version>
+		<liferay-knoeledge-base.version>[0.0,0.1)</liferay-knoeledge-base.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>biit-releases</name>
+			<url>https://dev.biit-solutions.com:8443/mavenartifactory/ext-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>libs-snapshot</name>
+			<url>https://dev.biit-solutions.com:8443/mavenartifactory/libs-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.biit.plugins</groupId>
+			<artifactId>plugin-manager</artifactId>
+			<version>${plugin-manager.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.biit.liferay</groupId>
+			<artifactId>liferay-knowledge-base</artifactId>
+			<version>${liferay-knoeledge-base.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>7</source>
+					<target>7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
