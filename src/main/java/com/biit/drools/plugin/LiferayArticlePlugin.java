@@ -2,36 +2,34 @@ package com.biit.drools.plugin;
 
 import java.io.IOException;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+
 import org.apache.http.client.ClientProtocolException;
 
 import com.biit.liferay.access.KnowledgeBaseService;
 import com.biit.liferay.access.exceptions.AuthenticationRequired;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
-import com.biit.liferay.model.KbArticle;
-
-import net.xeoh.plugins.base.annotations.PluginImplementation;
+import com.biit.plugins.BasePlugin;
 
 @PluginImplementation
-public class LiferayArticlePlugin {
-
+public class LiferayArticlePlugin extends BasePlugin {
 	private KnowledgeBaseService knowledgeBaseService = new KnowledgeBaseService();
 
-	/**
-	 * All methods of a plugin must starts with the prefix "method".
-	 * 
-	 * @param parameter1
-	 * @param parameter2
-	 * @return
-	 * @throws WebServiceAccessError
-	 * @throws AuthenticationRequired
-	 * @throws IOException
-	 * @throws NotConnectedToWebServiceException
-	 * @throws ClientProtocolException
-	 */
-	public KbArticle methodGetLatestArticle(long resourcePrimaryKey) throws ClientProtocolException,
-			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
-		return knowledgeBaseService.getLatestArticle(resourcePrimaryKey);
+	// Plugin name (must be unique)
+	public static String NAME = "LiferayKnowledgeBasePlugin";
+
+	@Override
+	public String getPluginName() {
+		return NAME;
 	}
 
+	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException,
+			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
+		if (resourcePrimaryKey != null & knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue()) != null) {
+			return knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue()).getTitle() + "\n"
+					+ knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue()).getContent();
+		}
+		return "";
+	}
 }
