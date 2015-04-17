@@ -40,9 +40,13 @@ public class LiferayArticlePlugin extends BasePlugin {
 	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException,
 			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
 		if (resourcePrimaryKey != null) {
-			KbArticle article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
-			if (article != null) {
-				return formatArticle(article);
+			try {
+				KbArticle article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+				if (article != null) {
+					return formatArticle(article);
+				}
+			} catch (Exception e) {
+				return e.getMessage();
 			}
 		}
 		return "";
@@ -63,18 +67,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException,
 			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
 		Integer resourcePrimaryKey = LifeayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
-		if (resourcePrimaryKey != null) {
-			try {
-				KbArticle article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
-				if (article != null) {
-					return formatArticle(article);
-				}
-			} catch (Exception e) {
-				return e.getMessage();
-			}
-
-		}
-		return "";
+		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
 
 	private String formatArticle(KbArticle article) {
