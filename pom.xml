@@ -13,6 +13,7 @@
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<plugin-manager.version>[0.0,0.1)</plugin-manager.version>
 		<liferay-knoeledge-base.version>[0.0,0.1)</liferay-knoeledge-base.version>
+		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
 	</properties>
 
 	<distributionManagement>
@@ -55,22 +56,21 @@
 			</plugin>
 			<!-- Include dependencies inside the JAR -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version></version>
+			<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>single</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
