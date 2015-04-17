@@ -60,7 +60,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * @throws AuthenticationRequired
 	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContent(String propertyTag) throws ClientProtocolException,
+	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException,
 			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
 		Integer resourcePrimaryKey = LifeayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
 		if (resourcePrimaryKey != null) {
