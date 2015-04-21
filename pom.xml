@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-		<plugin-manager.version>[0.0,0.1)</plugin-manager.version>
+		<plugin-manager.version>[0.1,0.2)</plugin-manager.version>
 		<liferay-knoeledge-base.version>[0.0,0.1)</liferay-knoeledge-base.version>
 		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
 	</properties>

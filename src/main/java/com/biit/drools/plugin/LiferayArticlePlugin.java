@@ -16,7 +16,7 @@ import com.biit.plugins.BasePlugin;
 
 @PluginImplementation
 public class LiferayArticlePlugin extends BasePlugin {
-	private KnowledgeBaseService knowledgeBaseService = new KnowledgeBaseService();
+	private KnowledgeBaseService knowledgeBaseService;
 
 	// Plugin name (must be unique)
 	public static String NAME = "LiferayKnowledgeBasePlugin";
@@ -24,6 +24,11 @@ public class LiferayArticlePlugin extends BasePlugin {
 	@Override
 	public String getPluginName() {
 		return NAME;
+	}
+
+	public LiferayArticlePlugin() {
+		super();
+		knowledgeBaseService = new KnowledgeBaseService();
 	}
 
 	/**
