@@ -1,18 +1,20 @@
 package com.biit.drools.plugin;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 import org.apache.http.client.ClientProtocolException;
 
-import com.biit.drools.plugin.configuration.LifeayPluginConfigurationReader;
+import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
 import com.biit.liferay.access.KnowledgeBaseService;
 import com.biit.liferay.access.exceptions.AuthenticationRequired;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
 import com.biit.liferay.model.KbArticle;
 import com.biit.plugins.BasePlugin;
+import com.biit.utils.configuration.IPropertiesSource;
 
 @PluginImplementation
 public class LiferayArticlePlugin extends BasePlugin {
@@ -71,11 +73,18 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 */
 	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException,
 			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
-		Integer resourcePrimaryKey = LifeayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
+		Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
 		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
 
 	private String formatArticle(KbArticle article) {
 		return article.getTitle() + "\n" + article.getContent();
+	}
+
+	/**
+	 * Enable the properties list to be use as a plugin.
+	 */
+	public List<IPropertiesSource> methodGetPropertiesSources() {
+		return LiferayPluginConfigurationReader.getInstance().getPropertiesSources();
 	}
 }
