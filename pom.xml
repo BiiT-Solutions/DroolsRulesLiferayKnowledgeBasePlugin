@@ -5,15 +5,17 @@
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.0</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
+		<project.scm.id>git</project.scm.id>
+		<!-- BiiT dependencies -->
 		<plugin-manager.version>[0.1,0.2)</plugin-manager.version>
 		<liferay-knowledge-base.version>[0.0,0.1)</liferay-knowledge-base.version>
-		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
 	</properties>
 
 	<distributionManagement>
@@ -28,7 +30,12 @@
 			<url>https://dev.biit-solutions.com:8443/mavenartifactory/libs-snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
-
+	
+	<scm>
+		<connection>scm:git:dev.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
+		<developerConnection>scm:git:dev.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
+		<tag>drools-engine</tag>
+	</scm>
 
 	<dependencies>
 		<dependency>
