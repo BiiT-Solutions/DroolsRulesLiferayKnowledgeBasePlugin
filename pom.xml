@@ -34,7 +34,7 @@
 	<scm>
 		<connection>scm:git:dev.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
 		<developerConnection>scm:git:dev.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
-		<tag>drools-engine</tag>
+		<tag>drools-liferay-plugin</tag>
 	</scm>
 
 	<dependencies>
