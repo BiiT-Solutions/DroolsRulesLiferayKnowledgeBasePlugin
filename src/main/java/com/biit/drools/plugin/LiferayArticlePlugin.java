@@ -44,8 +44,8 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * @throws AuthenticationRequired
 	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException,
-			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
+	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
+			AuthenticationRequired, WebServiceAccessError {
 		if (resourcePrimaryKey != null) {
 			try {
 				KbArticle article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
@@ -60,8 +60,9 @@ public class LiferayArticlePlugin extends BasePlugin {
 	}
 
 	/**
-	 * Returns an article by a property value. The property must be mapped in the settings.conf as a unique
-	 * identificator with the Liferay primary key. I.e. "Article1=25600"
+	 * Returns an article by a property value. The property must be mapped in
+	 * the settings.conf as a unique identificator with the Liferay primary key.
+	 * I.e. "Article1=25600"
 	 * 
 	 * @param propertyTag
 	 * @return
@@ -71,14 +72,18 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * @throws AuthenticationRequired
 	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException,
-			NotConnectedToWebServiceException, IOException, AuthenticationRequired, WebServiceAccessError {
+	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
+			AuthenticationRequired, WebServiceAccessError {
 		Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
 		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
 
 	private String formatArticle(KbArticle article) {
-		return article.getTitle() + "\n" + article.getContent();
+		if (LiferayPluginConfigurationReader.getInstance().isArticleHeaderEnabled()) {
+			return article.getTitle() + "\n" + article.getContent();
+		} else {
+			return article.getContent();
+		}
 	}
 
 	/**
