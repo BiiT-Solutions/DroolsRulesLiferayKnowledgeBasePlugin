@@ -9,11 +9,11 @@ import org.apache.http.client.ClientProtocolException;
 
 import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
 import com.biit.liferay.access.KnowledgeBaseService;
-import com.biit.liferay.access.exceptions.AuthenticationRequired;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
-import com.biit.liferay.model.KbArticle;
+import com.biit.liferay.model.IArticle;
 import com.biit.plugins.BasePlugin;
+import com.biit.usermanager.security.exceptions.AuthenticationRequired;
 import com.biit.utils.configuration.IPropertiesSource;
 
 @PluginImplementation
@@ -38,7 +38,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * 
 	 * @param resourcePrimaryKey
 	 * @return
-	 * @throws ClientProtocolException
+	 * @throws ClientProtocolException	
 	 * @throws NotConnectedToWebServiceException
 	 * @throws IOException
 	 * @throws AuthenticationRequired
@@ -48,7 +48,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 			AuthenticationRequired, WebServiceAccessError {
 		if (resourcePrimaryKey != null) {
 			try {
-				KbArticle article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
 				if (article != null) {
 					return formatArticle(article);
 				}
@@ -78,7 +78,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
 
-	private String formatArticle(KbArticle article) {
+	private String formatArticle(IArticle<Long> article) {
 		if (LiferayPluginConfigurationReader.getInstance().isArticleHeaderEnabled()) {
 			return article.getTitle() + "\n" + article.getContent();
 		} else {
