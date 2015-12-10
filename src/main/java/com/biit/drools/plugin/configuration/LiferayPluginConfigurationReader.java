@@ -3,7 +3,7 @@ package com.biit.drools.plugin.configuration;
 import com.biit.logger.BiitCommonLogger;
 import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.utils.configuration.SystemVariablePropertiesSourceFile;
-import com.biit.utils.configuration.exception.PropertyNotFoundException;
+import com.biit.utils.configuration.exceptions.PropertyNotFoundException;
 
 public class LiferayPluginConfigurationReader extends PluginConfigurationReader {
 	private static final String SYSTEM_VARIABLE = "LIFERAY_PLUGIN_CONFIG";
