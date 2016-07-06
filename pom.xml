@@ -16,7 +16,7 @@
 		<project.scm.id>git</project.scm.id>
 		<!-- BiiT dependencies -->
 		<plugin-manager.version>[0.1,0.2)</plugin-manager.version>
-		<liferay-knowledge-base.version>[0.0,0.1)</liferay-knowledge-base.version>
+		<liferay-knowledge-base.version>[0.1,0.2)</liferay-knowledge-base.version>
 	</properties>
 
 	<distributionManagement>
