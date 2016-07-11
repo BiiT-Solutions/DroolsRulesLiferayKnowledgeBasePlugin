@@ -21,6 +21,7 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 
 		// Load folder in system variables.
 		addPropertiesSource(new SystemVariablePropertiesSourceFile(SYSTEM_VARIABLE, SETTINGS_FILE));
+		addPropertiesSource(new SystemVariablePropertiesSourceFile(SYSTEM_VARIABLE, getJarName() + ".conf"));
 	}
 
 	public static LiferayPluginConfigurationReader getInstance() {
@@ -65,5 +66,4 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 	public boolean isArticleHeaderEnabled() {
 		return Boolean.parseBoolean(getPropertyLogException(ID_INCLUDE_ARTICLE_HEADER));
 	}
-
 }
