@@ -1,5 +1,6 @@
 package com.biit.drools.plugin.configuration;
 
+import com.biit.liferay.log.LiferayClientLogger;
 import com.biit.logger.BiitCommonLogger;
 import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.utils.configuration.SystemVariablePropertiesSourceFile;
@@ -52,9 +53,10 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 			try {
 				return Integer.parseInt(propertyValue);
 			} catch (Exception e) {
-
+				LiferayClientLogger.warning(this.getClass().getName(), "Invalid number '" + propertyValue + "' for property '" + propertyTag + "'.");
 			}
 		} catch (PropertyNotFoundException e) {
+			LiferayClientLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
 			return null;
 		}
 		return null;
