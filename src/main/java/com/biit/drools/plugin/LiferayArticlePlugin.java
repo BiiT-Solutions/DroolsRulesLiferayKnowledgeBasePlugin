@@ -11,6 +11,7 @@ import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
 import com.biit.liferay.access.KnowledgeBaseService;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
+import com.biit.liferay.log.LiferayClientLogger;
 import com.biit.liferay.model.IArticle;
 import com.biit.plugins.BasePlugin;
 import com.biit.usermanager.security.exceptions.AuthenticationRequired;
@@ -38,7 +39,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * 
 	 * @param resourcePrimaryKey
 	 * @return
-	 * @throws ClientProtocolException	
+	 * @throws ClientProtocolException
 	 * @throws NotConnectedToWebServiceException
 	 * @throws IOException
 	 * @throws AuthenticationRequired
@@ -74,7 +75,9 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 */
 	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
 			AuthenticationRequired, WebServiceAccessError {
+		LiferayClientLogger.debug(this.getClass().getName(), "Getting article for: '" + propertyTag + "'.");
 		Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
+		LiferayClientLogger.debug(this.getClass().getName(), "Primary key retrieved is: '" + resourcePrimaryKey + "'.");
 		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
 
