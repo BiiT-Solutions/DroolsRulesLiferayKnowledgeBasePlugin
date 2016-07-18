@@ -53,8 +53,10 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 			String propertyValue = getProperty(propertyTag);
 			try {
 				return Integer.parseInt(propertyValue);
-			} catch (Exception e) {
+			} catch (NumberFormatException e) {
 				LiferayClientLogger.warning(this.getClass().getName(), "Invalid number '" + propertyValue + "' for property '" + propertyTag + "'.");
+			} catch (Exception e) {
+				LiferayClientLogger.warning(this.getClass().getName(), "Invalid property '" + propertyTag + "' or not found in any settings file.");
 			}
 		} catch (PropertyNotFoundException e) {
 			LiferayClientLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
