@@ -19,10 +19,12 @@ import com.biit.utils.configuration.IPropertiesSource;
 
 @PluginImplementation
 public class LiferayArticlePlugin extends BasePlugin {
-	private KnowledgeBaseService knowledgeBaseService;
-
 	// Plugin name (must be unique)
 	public static String NAME = "LiferayKnowledgeBasePlugin";
+
+	private KnowledgeBaseService knowledgeBaseService;
+
+	private LiferayArticlePluginPool articlePool;
 
 	@Override
 	public String getPluginName() {
@@ -31,6 +33,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 
 	public LiferayArticlePlugin() {
 		super();
+		articlePool = new LiferayArticlePluginPool();
 		knowledgeBaseService = new KnowledgeBaseService();
 	}
 
@@ -48,12 +51,17 @@ public class LiferayArticlePlugin extends BasePlugin {
 	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
 			AuthenticationRequired, WebServiceAccessError {
 		if (resourcePrimaryKey != null) {
+			if (articlePool.getElement(resourcePrimaryKey.longValue()) != null) {
+				return formatArticle(articlePool.getElement(resourcePrimaryKey.longValue()));
+			}
 			try {
 				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
 				if (article != null) {
+					articlePool.addElement(article);
 					return formatArticle(article);
 				}
 			} catch (Exception e) {
+				LiferayClientLogger.errorMessage(this.getClass().getName(), e);
 				return e.getMessage();
 			}
 		}

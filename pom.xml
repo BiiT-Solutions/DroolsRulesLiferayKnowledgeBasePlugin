@@ -4,7 +4,7 @@
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.10-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<properties>

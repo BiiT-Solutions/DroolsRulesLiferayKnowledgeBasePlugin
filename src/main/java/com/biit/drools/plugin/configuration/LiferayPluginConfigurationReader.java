@@ -8,9 +8,13 @@ import com.biit.utils.configuration.exceptions.PropertyNotFoundException;
 
 public class LiferayPluginConfigurationReader extends PluginConfigurationReader {
 	private static final String SYSTEM_VARIABLE = "LIFERAY_PLUGIN_CONFIG";
+	private static final String OTHER_SYSTEM_VARIABLE = "USER_MANAGER_CONFIG";
 
 	private static final String ID_INCLUDE_ARTICLE_HEADER = "article.header";
+	private static final String ARTICLE_POOL_EXPIRATION_TIME = "knowledgebase.article.expiration";
+
 	private static final String DEFAULT_INCLUDE_ARTICLE_HEADER = "false";
+	private static final String DEFAULT_EXPIRATION_TIME = "300000";
 
 	private static LiferayPluginConfigurationReader instance;
 
@@ -18,10 +22,12 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 		super(LiferayPluginConfigurationReader.class);
 
 		addProperty(ID_INCLUDE_ARTICLE_HEADER, DEFAULT_INCLUDE_ARTICLE_HEADER);
+		addProperty(ARTICLE_POOL_EXPIRATION_TIME, DEFAULT_EXPIRATION_TIME);
 
 		// Load folder in system variables.
 		addPropertiesSource(new SystemVariablePropertiesSourceFile(SYSTEM_VARIABLE, SETTINGS_FILE));
 		addPropertiesSource(new SystemVariablePropertiesSourceFile(SYSTEM_VARIABLE, getJarName() + ".conf"));
+		addPropertiesSource(new SystemVariablePropertiesSourceFile(OTHER_SYSTEM_VARIABLE, SETTINGS_FILE));
 	}
 
 	public static LiferayPluginConfigurationReader getInstance() {
@@ -67,5 +73,13 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 
 	public boolean isArticleHeaderEnabled() {
 		return Boolean.parseBoolean(getPropertyLogException(ID_INCLUDE_ARTICLE_HEADER));
+	}
+
+	public Long getArticlePoolExpirationTime() {
+		try {
+			return Long.parseLong(getPropertyLogException(ARTICLE_POOL_EXPIRATION_TIME));
+		} catch (Exception e) {
+			return Long.parseLong(DEFAULT_EXPIRATION_TIME);
+		}
 	}
 }
