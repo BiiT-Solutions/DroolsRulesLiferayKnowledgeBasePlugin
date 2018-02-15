@@ -8,7 +8,7 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.http.client.ClientProtocolException;
 
 import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
-import com.biit.liferay.access.KnowledgeBaseService;
+import com.biit.liferay.access.ArticleService;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
 import com.biit.liferay.log.LiferayClientLogger;
@@ -19,7 +19,7 @@ import com.biit.utils.configuration.IPropertiesSource;
 
 @PluginImplementation
 public class LiferayArticlePlugin extends BasePlugin {
-	private KnowledgeBaseService knowledgeBaseService;
+	private ArticleService knowledgeBaseService;
 
 	// Plugin name (must be unique)
 	public static String NAME = "LiferayKnowledgeBasePlugin";
@@ -31,7 +31,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 
 	public LiferayArticlePlugin() {
 		super();
-		knowledgeBaseService = new KnowledgeBaseService();
+		knowledgeBaseService = new ArticleService();
 	}
 
 	/**
