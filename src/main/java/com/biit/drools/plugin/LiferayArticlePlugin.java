@@ -32,6 +32,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 	public LiferayArticlePlugin() {
 		super();
 		knowledgeBaseService = new ArticleService();
+		knowledgeBaseService.serverConnection();
 	}
 
 	/**
