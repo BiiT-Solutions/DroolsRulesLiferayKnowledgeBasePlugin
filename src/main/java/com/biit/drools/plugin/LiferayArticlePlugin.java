@@ -40,17 +40,12 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * 
 	 * @param resourcePrimaryKey
 	 * @return
-	 * @throws ClientProtocolException
-	 * @throws NotConnectedToWebServiceException
-	 * @throws IOException
-	 * @throws AuthenticationRequired
-	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
-			AuthenticationRequired, WebServiceAccessError {
+	public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
 		if (resourcePrimaryKey != null) {
 			try {
 				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+				LiferayClientLogger.debug(this.getClass().getName(), "Article retrieved: " + article);
 				if (article != null) {
 					return formatArticle(article);
 				}
@@ -75,8 +70,7 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * @throws AuthenticationRequired
 	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
-			AuthenticationRequired, WebServiceAccessError {
+	public String methodGetLatestArticleContentByProperty(String propertyTag) {
 		LiferayClientLogger.debug(this.getClass().getName(), "Getting article for: '" + propertyTag + "'.");
 		Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
 		LiferayClientLogger.debug(this.getClass().getName(), "Primary key retrieved is: '" + resourcePrimaryKey + "'.");
