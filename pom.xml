@@ -4,7 +4,7 @@
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.6</version>
+	<version>0.2.8-SNAPSHOT</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<properties>
@@ -16,25 +16,25 @@
 		<project.scm.id>git</project.scm.id>
 		<!-- BiiT dependencies -->
 		<plugin-manager.version>[0.1,0.2)</plugin-manager.version>
-		<liferay-knowledge-base.version>[0.0,0.1)</liferay-knowledge-base.version>
+		<liferay-knowledge-base.version>[0.2,0.3)</liferay-knowledge-base.version>
 	</properties>
 
 	<distributionManagement>
 		<repository>
 			<id>central</id>
-			<name>biit-releases</name>
-			<url>https://dev.biit-solutions.com:8443/mavenartifactory/ext-release-local</url>
+			<name>libs-releases</name>
+			<url>https://dev.biit-solutions.com/artifactory/libs-release</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>libs-snapshot</name>
-			<url>https://dev.biit-solutions.com:8443/mavenartifactory/libs-snapshot</url>
+			<url>https://dev.biit-solutions.com/artifactory/libs-snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
 	
 	<scm>
-		<connection>scm:git:dev.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
-		<developerConnection>scm:git:dev.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
+		<connection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
+		<developerConnection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
 		<tag>drools-liferay-plugin</tag>
 	</scm>
 

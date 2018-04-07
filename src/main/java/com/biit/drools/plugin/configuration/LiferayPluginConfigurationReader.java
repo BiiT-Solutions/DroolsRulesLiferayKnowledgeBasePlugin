@@ -1,5 +1,6 @@
 package com.biit.drools.plugin.configuration;
 
+import com.biit.liferay.log.LiferayClientLogger;
 import com.biit.logger.BiitCommonLogger;
 import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.utils.configuration.SystemVariablePropertiesSourceFile;
@@ -20,6 +21,7 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 
 		// Load folder in system variables.
 		addPropertiesSource(new SystemVariablePropertiesSourceFile(SYSTEM_VARIABLE, SETTINGS_FILE));
+		addPropertiesSource(new SystemVariablePropertiesSourceFile(SYSTEM_VARIABLE, getJarName() + ".conf"));
 	}
 
 	public static LiferayPluginConfigurationReader getInstance() {
@@ -51,10 +53,13 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 			String propertyValue = getProperty(propertyTag);
 			try {
 				return Integer.parseInt(propertyValue);
+			} catch (NumberFormatException e) {
+				LiferayClientLogger.warning(this.getClass().getName(), "Invalid number '" + propertyValue + "' for property '" + propertyTag + "'.");
 			} catch (Exception e) {
-
+				LiferayClientLogger.warning(this.getClass().getName(), "Invalid property '" + propertyTag + "' or not found in any settings file.");
 			}
 		} catch (PropertyNotFoundException e) {
+			LiferayClientLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
 			return null;
 		}
 		return null;
@@ -63,5 +68,4 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 	public boolean isArticleHeaderEnabled() {
 		return Boolean.parseBoolean(getPropertyLogException(ID_INCLUDE_ARTICLE_HEADER));
 	}
-
 }

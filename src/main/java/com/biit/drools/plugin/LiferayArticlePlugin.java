@@ -8,9 +8,10 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.http.client.ClientProtocolException;
 
 import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
-import com.biit.liferay.access.KnowledgeBaseService;
+import com.biit.liferay.access.ArticleService;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
+import com.biit.liferay.log.LiferayClientLogger;
 import com.biit.liferay.model.IArticle;
 import com.biit.plugins.BasePlugin;
 import com.biit.usermanager.security.exceptions.AuthenticationRequired;
@@ -18,7 +19,7 @@ import com.biit.utils.configuration.IPropertiesSource;
 
 @PluginImplementation
 public class LiferayArticlePlugin extends BasePlugin {
-	private KnowledgeBaseService knowledgeBaseService;
+	private ArticleService knowledgeBaseService;
 
 	// Plugin name (must be unique)
 	public static String NAME = "LiferayKnowledgeBasePlugin";
@@ -30,7 +31,8 @@ public class LiferayArticlePlugin extends BasePlugin {
 
 	public LiferayArticlePlugin() {
 		super();
-		knowledgeBaseService = new KnowledgeBaseService();
+		knowledgeBaseService = new ArticleService();
+		knowledgeBaseService.serverConnection();
 	}
 
 	/**
@@ -38,21 +40,17 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * 
 	 * @param resourcePrimaryKey
 	 * @return
-	 * @throws ClientProtocolException	
-	 * @throws NotConnectedToWebServiceException
-	 * @throws IOException
-	 * @throws AuthenticationRequired
-	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContent(Double resourcePrimaryKey) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
-			AuthenticationRequired, WebServiceAccessError {
+	public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
 		if (resourcePrimaryKey != null) {
 			try {
 				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+				LiferayClientLogger.debug(this.getClass().getName(), "Article retrieved: " + article);
 				if (article != null) {
 					return formatArticle(article);
 				}
 			} catch (Exception e) {
+				LiferayClientLogger.errorMessage(this.getClass().getName(), e);
 				return e.getMessage();
 			}
 		}
@@ -72,9 +70,10 @@ public class LiferayArticlePlugin extends BasePlugin {
 	 * @throws AuthenticationRequired
 	 * @throws WebServiceAccessError
 	 */
-	public String methodGetLatestArticleContentByProperty(String propertyTag) throws ClientProtocolException, NotConnectedToWebServiceException, IOException,
-			AuthenticationRequired, WebServiceAccessError {
+	public String methodGetLatestArticleContentByProperty(String propertyTag) {
+		LiferayClientLogger.debug(this.getClass().getName(), "Getting article for: '" + propertyTag + "'.");
 		Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
+		LiferayClientLogger.debug(this.getClass().getName(), "Primary key retrieved is: '" + resourcePrimaryKey + "'.");
 		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
 
