@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2.9-SNAPSHOT</version>
+	<version>0.3.1-SNAPSHOT</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<properties>
@@ -13,10 +14,17 @@
 		<maven-assembly-plugin.version>2.5.3</maven-assembly-plugin.version>
 		<maven-release-plugin.version>2.5.1</maven-release-plugin.version>
 		<maven-scm-provider-gitexe.version>1.9.2</maven-scm-provider-gitexe.version>
+		<maven-jar.version>2.4</maven-jar.version>
 		<project.scm.id>git</project.scm.id>
 		<!-- BiiT dependencies -->
-		<plugin-manager.version>[0.1,0.2)</plugin-manager.version>
+		<plugin-manager.version>[0.2,0.3)</plugin-manager.version>
 		<liferay-knowledge-base.version>[0.2,0.3)</liferay-knowledge-base.version>
+		<!-- Plugin definition -->
+		<plugin.id>liferay-article</plugin.id>
+		<plugin.class>com.biit.drools.plugin.LiferayArticlePlugin</plugin.class>
+		<plugin.version>${project.version}</plugin.version>
+		<plugin.provider>BiiT Solutions</plugin.provider>
+		<plugin.dependencies></plugin.dependencies>
 	</properties>
 
 	<distributionManagement>
@@ -31,7 +39,7 @@
 			<url>https://dev.biit-solutions.com/artifactory/libs-snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 	<scm>
 		<connection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
 		<developerConnection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
@@ -42,7 +50,9 @@
 		<dependency>
 			<groupId>com.biit</groupId>
 			<artifactId>plugin-manager</artifactId>
+			<!-- PF4J: Mandatory not include in the final jar -->
 			<version>${plugin-manager.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.biit.liferay</groupId>
@@ -64,13 +74,35 @@
 			</plugin>
 			<!-- Include dependencies inside the JAR -->
 			<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>${maven-assembly-plugin.version}</version>
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<includes>
+						<!-- PF4J: Only minimum classes. Cannot collide with existing ones 
+							when deployed. -->
+						<include>com/biit/drools/plugin/**/*</include>
+						<!-- PF4J: Mandatory to include extensions -->
+						<include>META-INF/extensions.idx</include>
+					</includes>
+					<finalName>${plugin.id}-plugin</finalName>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<!-- PF4J: Mandatory to register the plugin. -->
+						<manifestEntries>
+							<Plugin-Id>${plugin.id}</Plugin-Id>
+							<Plugin-Version>${plugin.version}</Plugin-Version>
+							<Plugin-Provider>${plugin.provider}</Plugin-Provider>
+							<Plugin-Class>${plugin.class}</Plugin-Class>
+							<Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
+						</manifestEntries>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -79,6 +111,80 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar.version}</version>
+				<executions>
+					<execution>
+						<id>build-liferay-article-jar</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<!-- PF4J: Only minimum classes. Cannot collide with existing ones 
+									when deployed. -->
+								<include>com/biit/drools/plugin/**/*</include>
+								<include>com/biit/liferay/access/**/*</include>
+								<include>com/biit/liferay/model/IArticle</include>
+								<!-- PF4J: Mandatory to include extensions -->
+								<include>META-INF/extensions.idx</include>
+							</includes>
+							<finalName>${plugin.id}-plugin</finalName>
+							<archive>
+								<index>true</index>
+								<manifest>
+									<addClasspath>true</addClasspath>
+								</manifest>
+								<!-- PF4J: Mandatory to register the plugin. -->
+								<manifestEntries>
+									<Plugin-Id>${plugin.id}</Plugin-Id>
+									<Plugin-Version>${plugin.version}</Plugin-Version>
+									<Plugin-Provider>${plugin.provider}</Plugin-Provider>
+									<Plugin-Class>${plugin.class}</Plugin-Class>
+									<Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
+								</manifestEntries>
+							</archive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>${plugin.id}-shaded</finalName>
+							<filters>
+								<filter>
+									<artifact>com.biit.liferay-knowledge-base</artifact>
+									<includes>
+										<include>com/biit/liferay/access/**/*</include>
+										<include>com/biit/liferay/model/IArticle</include>
+									</includes>
+								</filter>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<minimizeJar>true</minimizeJar>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
