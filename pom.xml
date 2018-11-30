@@ -19,6 +19,7 @@
 		<!-- BiiT dependencies -->
 		<plugin-manager.version>[0.2,0.3)</plugin-manager.version>
 		<liferay-knowledge-base.version>[0.2,0.3)</liferay-knowledge-base.version>
+		<common-utils.version>[0.4,0.5)</common-utils.version>
 		<!-- Plugin definition -->
 		<plugin.id>liferay-article</plugin.id>
 		<plugin.class>com.biit.drools.plugin.LiferayArticlePlugin</plugin.class>
@@ -52,13 +53,32 @@
 			<artifactId>plugin-manager</artifactId>
 			<!-- PF4J: Mandatory not include in the final jar -->
 			<version>${plugin-manager.version}</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.biit.liferay</groupId>
 			<artifactId>liferay-knowledge-base</artifactId>
 			<version>${liferay-knowledge-base.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.biit</groupId>
+			<artifactId>common-utils</artifactId>
+			<version>${common-utils.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -81,16 +101,8 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<includes>
-						<!-- PF4J: Only minimum classes. Cannot collide with existing ones 
-							when deployed. -->
-						<include>com/biit/drools/plugin/**/*</include>
-						<!-- PF4J: Mandatory to include extensions -->
-						<include>META-INF/extensions.idx</include>
-					</includes>
 					<finalName>${plugin.id}-plugin</finalName>
 					<archive>
-						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
 						</manifest>
@@ -113,97 +125,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven-jar.version}</version>
-				<executions>
-					<execution>
-						<id>build-liferay-article-jar</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<includes>
-								<!-- PF4J: Only minimum classes. Cannot collide with existing ones 
-									when deployed. -->
-								<include>com/biit/drools/plugin/**/*</include>
-								<include>com/biit/liferay/access/**/*</include>
-								<include>com/biit/liferay/model/IArticle</include>
-								<!-- PF4J: Mandatory to include extensions -->
-								<include>META-INF/extensions.idx</include>
-							</includes>
-							<finalName>${plugin.id}-plugin</finalName>
-							<archive>
-								<index>true</index>
-								<manifest>
-									<addClasspath>true</addClasspath>
-								</manifest>
-								<!-- PF4J: Mandatory to register the plugin. -->
-								<manifestEntries>
-									<Plugin-Id>${plugin.id}</Plugin-Id>
-									<Plugin-Version>${plugin.version}</Plugin-Version>
-									<Plugin-Provider>${plugin.provider}</Plugin-Provider>
-									<Plugin-Class>${plugin.class}</Plugin-Class>
-									<Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
-								</manifestEntries>
-							</archive>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<finalName>${plugin.id}-shaded</finalName>
-							<filters>
-								<filter>
-									<artifact>com.biit.liferay-knowledge-base</artifact>
-									<includes>
-										<include>com/biit/liferay/access/**/*</include>
-										<include>com/biit/liferay/model/IArticle</include>
-									</includes>
-								</filter>
-								<filter>
-									<artifact>*:*</artifact>
-									<excludes>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-									</excludes>
-								</filter>
-							</filters>
-							<minimizeJar>true</minimizeJar>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>${maven-release-plugin.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.scm</groupId>
-						<artifactId>maven-scm-provider-gitexe</artifactId>
-						<version>${maven-scm-provider-gitexe.version}</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<checkModificationExcludes>
-						<checkModificationExclude>pom.xml</checkModificationExclude>
-					</checkModificationExcludes>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
