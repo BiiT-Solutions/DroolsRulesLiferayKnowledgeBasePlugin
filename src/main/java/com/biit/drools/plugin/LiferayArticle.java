@@ -47,6 +47,10 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 				if (article != null) {
 					return formatArticle(article);
 				}
+			} catch (NotConnectedToWebServiceException | ClientProtocolException | AuthenticationRequired | WebServiceAccessError e) {
+				LiferaryArticlePluginLogger.severe(this.getClass().getName(), "Article '" + resourcePrimaryKey + "' not found!");
+				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+				return "";
 			} catch (Exception e) {
 				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
 				return e.getMessage();
