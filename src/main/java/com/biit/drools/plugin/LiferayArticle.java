@@ -77,7 +77,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 		Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
 		LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Primary key retrieved is: '" + resourcePrimaryKey + "'.");
 		if (resourcePrimaryKey == null) {
-			return "";
+			return "<undefined>";
 		}
 		return methodGetLatestArticleContent((double) resourcePrimaryKey);
 	}
