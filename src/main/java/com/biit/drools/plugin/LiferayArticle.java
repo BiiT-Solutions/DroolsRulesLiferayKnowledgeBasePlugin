@@ -44,7 +44,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 		if (resourcePrimaryKey != null) {
 			try {
 				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
-				LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved: " + article);
+				LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
 				if (article != null) {
 					return formatArticle(article);
 				}
@@ -79,7 +79,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 		try {
 			LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
 			Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
-			LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Primary key retrieved for '" + propertyTag
+			LiferaryArticlePluginLogger.info(this.getClass().getName(), "Primary key retrieved for '" + propertyTag
 					+ "' is '" + resourcePrimaryKey + "'.");
 			if (resourcePrimaryKey == null) {
 				return INVALID_ARTICLE_TAG;
