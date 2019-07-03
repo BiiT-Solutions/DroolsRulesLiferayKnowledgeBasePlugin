@@ -35,10 +35,11 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 	}
 
 	/**
-	 * Gets an article by its Liferay primary key.
+	 * Gets an article by its Liferay primary key.S
 	 * 
 	 * @param resourcePrimaryKey
-	 * @return
+	 *            Liferay Ids of the article.
+	 * @return the article
 	 */
 	public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
 		if (resourcePrimaryKey != null) {
@@ -68,12 +69,8 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 	 * I.e. "Article1=25600"
 	 * 
 	 * @param propertyTag
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws NotConnectedToWebServiceException
-	 * @throws IOException
-	 * @throws AuthenticationRequired
-	 * @throws WebServiceAccessError
+	 *            a string that identifies the article.
+	 * @return the article text.
 	 */
 	public String methodGetLatestArticleContentByProperty(String propertyTag) {
 		try {
@@ -101,6 +98,8 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 
 	/**
 	 * Enable the properties list to be use as a plugin.
+	 * 
+	 * @return gets all propertie sources.
 	 */
 	public List<IPropertiesSource> methodGetPropertiesSources() {
 		return LiferayPluginConfigurationReader.getInstance().getPropertiesSources();
