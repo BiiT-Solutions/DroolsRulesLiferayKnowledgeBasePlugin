@@ -1,6 +1,5 @@
 package com.biit.drools.plugin;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -20,6 +19,7 @@ import com.biit.utils.configuration.IPropertiesSource;
 @Extension
 public class LiferayArticle extends BasePlugin implements IPlugin {
 	private static final String INVALID_ARTICLE_TAG = "<undefined>";
+	private static final String ERROR_ARTICLE_TAG = "<error>";
 	private static final String NAME = "liferay-article";
 	private ArticleService knowledgeBaseService;
 
@@ -37,8 +37,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 	/**
 	 * Gets an article by its Liferay primary key.S
 	 * 
-	 * @param resourcePrimaryKey
-	 *            Liferay Ids of the article.
+	 * @param resourcePrimaryKey Liferay Ids of the article.
 	 * @return the article
 	 */
 	public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
@@ -51,33 +50,32 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 				}
 			} catch (NotConnectedToWebServiceException | ClientProtocolException | AuthenticationRequired
 					| WebServiceAccessError e) {
-				LiferaryArticlePluginLogger.severe(this.getClass().getName(), "Article '" + resourcePrimaryKey
-						+ "' not found!");
+				LiferaryArticlePluginLogger.severe(this.getClass().getName(),
+						"Article '" + resourcePrimaryKey + "' not found!");
 				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
-				return e.getMessage();
+				return ERROR_ARTICLE_TAG;
 			} catch (Exception e) {
 				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
-				return e.getMessage();
+				return ERROR_ARTICLE_TAG;
 			}
 		}
 		return INVALID_ARTICLE_TAG;
 	}
 
 	/**
-	 * Returns an article by a property value. The property must be mapped in
-	 * the settings.conf as a unique identificator with the Liferay primary key.
-	 * I.e. "Article1=25600"
+	 * Returns an article by a property value. The property must be mapped in the
+	 * settings.conf as a unique identificator with the Liferay primary key. I.e.
+	 * "Article1=25600"
 	 * 
-	 * @param propertyTag
-	 *            a string that identifies the article.
+	 * @param propertyTag a string that identifies the article.
 	 * @return the article text.
 	 */
 	public String methodGetLatestArticleContentByProperty(String propertyTag) {
 		try {
 			LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
 			Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
-			LiferaryArticlePluginLogger.info(this.getClass().getName(), "Primary key retrieved for '" + propertyTag
-					+ "' is '" + resourcePrimaryKey + "'.");
+			LiferaryArticlePluginLogger.info(this.getClass().getName(),
+					"Primary key retrieved for '" + propertyTag + "' is '" + resourcePrimaryKey + "'.");
 			if (resourcePrimaryKey == null) {
 				return INVALID_ARTICLE_TAG;
 			}
