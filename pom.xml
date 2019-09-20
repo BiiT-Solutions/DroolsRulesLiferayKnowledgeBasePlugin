@@ -19,7 +19,6 @@
 		<!-- BiiT dependencies -->
 		<plugin-manager.version>[0.2,0.3)</plugin-manager.version>
 		<liferay-knowledge-base.version>[0.2,0.3)</liferay-knowledge-base.version>
-		<common-utils.version>[0.4,0.5)</common-utils.version>
 		<!-- Plugin definition -->
 		<plugin.id>liferay-article</plugin.id>
 		<plugin.class>com.biit.drools.plugin.LiferayArticlePlugin</plugin.class>
@@ -59,12 +58,6 @@
 			<groupId>com.biit.liferay</groupId>
 			<artifactId>liferay-knowledge-base</artifactId>
 			<version>${liferay-knowledge-base.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.biit</groupId>
-			<artifactId>common-utils</artifactId>
-			<version>${common-utils.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
