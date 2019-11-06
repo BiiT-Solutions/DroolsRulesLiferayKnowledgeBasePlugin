@@ -55,6 +55,8 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
 				return ERROR_ARTICLE_TAG;
 			} catch (Exception e) {
+				LiferaryArticlePluginLogger.severe(this.getClass().getName(),
+						"Error retrieving article with id '" + resourcePrimaryKey + "'.");
 				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
 				return ERROR_ARTICLE_TAG;
 			}
