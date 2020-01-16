@@ -1,12 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3.9-SNAPSHOT</version>
+	<version>0.3.9</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<properties>
@@ -25,7 +23,7 @@
 		<plugin.class>com.biit.drools.plugin.LiferayArticlePlugin</plugin.class>
 		<plugin.version>${project.version}</plugin.version>
 		<plugin.provider>BiiT Solutions</plugin.provider>
-		<plugin.dependencies></plugin.dependencies>
+		<plugin.dependencies />
 	</properties>
 
 	<distributionManagement>
@@ -44,7 +42,7 @@
 	<scm>
 		<connection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
 		<developerConnection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
-		<tag>drools-liferay-plugin</tag>
+		<tag>liferay-knowledge-base-0.3.9</tag>
 	</scm>
 
 	<dependencies>
