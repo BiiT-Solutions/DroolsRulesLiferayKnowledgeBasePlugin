@@ -99,7 +99,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 	/**
 	 * Enable the properties list to be use as a plugin.
 	 * 
-	 * @return gets all propertie sources.
+	 * @return gets all properties sources.
 	 */
 	public List<IPropertiesSource> methodGetPropertiesSources() {
 		return LiferayPluginConfigurationReader.getInstance().getPropertiesSources();
