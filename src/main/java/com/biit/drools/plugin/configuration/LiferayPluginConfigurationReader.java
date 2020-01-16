@@ -47,16 +47,19 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
 	public Integer getArticleId(String propertyTag) {
 		// Add property in property list to allow the use.
 		addProperty(propertyTag, null);
-		// Force to load all files to find the new property
-		readConfigurations();
+		// Force to load all files to find the new property. Case Insensitive due to
+		// liferay-autoconfiguration plugin has not correct cases
+		readConfigurations(Case.INSENSITIVE);
 		try {
 			String propertyValue = getProperty(propertyTag);
 			try {
 				return Integer.parseInt(propertyValue);
 			} catch (NumberFormatException e) {
-				LiferayClientLogger.warning(this.getClass().getName(), "Invalid number '" + propertyValue + "' for property '" + propertyTag + "'.");
+				LiferayClientLogger.warning(this.getClass().getName(),
+						"Invalid number '" + propertyValue + "' for property '" + propertyTag + "'.");
 			} catch (Exception e) {
-				LiferayClientLogger.warning(this.getClass().getName(), "Invalid property '" + propertyTag + "' or not found in any settings file.");
+				LiferayClientLogger.warning(this.getClass().getName(),
+						"Invalid property '" + propertyTag + "' or not found in any settings file.");
 			}
 		} catch (PropertyNotFoundException e) {
 			LiferayClientLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
