@@ -42,7 +42,7 @@
 	<scm>
 		<connection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
 		<developerConnection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
-		<tag>drools-liferay-knowledge-plugin</tag>
+		<tag>liferay-knowledge-base-0.3.12</tag>
 	</scm>
 
 	<dependencies>
