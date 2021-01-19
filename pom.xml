@@ -4,7 +4,7 @@
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3.11-SNAPSHOT</version>
+	<version>0.3.12-SNAPSHOT</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<properties>
@@ -30,19 +30,19 @@
 		<repository>
 			<id>central</id>
 			<name>libs-releases</name>
-			<url>https://dev.biit-solutions.com/artifactory/libs-release</url>
+			<url>https://artifactory.biit-solutions.com/artifactory/libs-release</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>libs-snapshot</name>
-			<url>https://dev.biit-solutions.com/artifactory/libs-snapshot</url>
+			<url>https://artifactory.biit-solutions.com/artifactory/libs-snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<scm>
 		<connection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
 		<developerConnection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
-		<tag>drools-liferay-plugin</tag>
+		<tag>drools-liferay-knowledge-plugin</tag>
 	</scm>
 
 	<dependencies>
