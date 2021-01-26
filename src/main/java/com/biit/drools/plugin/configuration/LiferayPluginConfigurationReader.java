@@ -1,13 +1,13 @@
 package com.biit.drools.plugin.configuration;
 
 import com.biit.liferay.log.LiferayClientLogger;
-import com.biit.utils.configuration.ConfigurationReader;
+import com.biit.logger.BiitCommonLogger;
+import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.utils.configuration.SystemVariablePropertiesSourceFile;
 import com.biit.utils.configuration.exceptions.PropertyNotFoundException;
 
-public class LiferayPluginConfigurationReader extends ConfigurationReader {
+public class LiferayPluginConfigurationReader extends PluginConfigurationReader {
     private static final String SYSTEM_VARIABLE = "LIFERAY_PLUGIN_CONFIG";
-    private static final String SETTINGS_FILE = "settings.conf";
 
     private static final String ID_INCLUDE_ARTICLE_HEADER = "article.header";
     private static final String DEFAULT_INCLUDE_ARTICLE_HEADER = "false";
@@ -15,6 +15,8 @@ public class LiferayPluginConfigurationReader extends ConfigurationReader {
     private static LiferayPluginConfigurationReader instance;
 
     public LiferayPluginConfigurationReader() {
+        super(LiferayPluginConfigurationReader.class);
+
         addProperty(ID_INCLUDE_ARTICLE_HEADER, DEFAULT_INCLUDE_ARTICLE_HEADER);
 
         // Load folder in system variables.
@@ -43,11 +45,16 @@ public class LiferayPluginConfigurationReader extends ConfigurationReader {
     }
 
     public Integer getArticleId(String propertyTag) {
-        // Add property in property list to allow the use.
-        addProperty(propertyTag, null);
-        // Force to load all files to find the new property. Case Insensitive due to
-        // liferay-autoconfiguration plugin has not correct cases
-        readConfigurations(Case.INSENSITIVE);
+        //Check if property exists.
+        try {
+            getProperty(propertyTag);
+        } catch (PropertyNotFoundException e) {
+            // Add property in property list to allow the use.
+            addProperty(propertyTag, null);
+            // Force to load all files to find the new property. Case Insensitive due to
+            // liferay-autoconfiguration plugin has not correct cases
+            readConfigurations(Case.INSENSITIVE);
+        }
         try {
             String propertyValue = getProperty(propertyTag);
             try {
@@ -60,6 +67,7 @@ public class LiferayPluginConfigurationReader extends ConfigurationReader {
                         "Invalid property '" + propertyTag + "' or not found in any settings file.");
             }
         } catch (PropertyNotFoundException e) {
+            //Not added before...  is an issue.
             LiferayClientLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
             return null;
         }
