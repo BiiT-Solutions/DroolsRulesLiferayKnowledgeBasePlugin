@@ -1,7 +1,6 @@
 package com.biit.drools.plugin.configuration;
 
-import com.biit.liferay.log.LiferayClientLogger;
-import com.biit.logger.BiitCommonLogger;
+import com.biit.drools.plugin.log.LiferayArticlePluginLogger;
 import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.utils.configuration.SystemVariablePropertiesSourceFile;
 import com.biit.utils.configuration.exceptions.PropertyNotFoundException;
@@ -39,7 +38,7 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
         try {
             return getProperty(propertyId);
         } catch (PropertyNotFoundException e) {
-            LiferayClientLogger.errorMessage(this.getClass().getName(), e);
+            LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
             return null;
         }
     }
@@ -60,15 +59,15 @@ public class LiferayPluginConfigurationReader extends PluginConfigurationReader 
             try {
                 return Integer.parseInt(propertyValue);
             } catch (NumberFormatException e) {
-                LiferayClientLogger.warning(this.getClass().getName(),
+                LiferayArticlePluginLogger.warning(this.getClass().getName(),
                         "Invalid number '" + propertyValue + "' for property '" + propertyTag + "'.");
             } catch (Exception e) {
-                LiferayClientLogger.warning(this.getClass().getName(),
+                LiferayArticlePluginLogger.warning(this.getClass().getName(),
                         "Invalid property '" + propertyTag + "' or not found in any settings file.");
             }
         } catch (PropertyNotFoundException e) {
             //Not added before...  is an issue.
-            LiferayClientLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
+            LiferayArticlePluginLogger.warning(this.getClass().getName(), "Property " + propertyTag + "' not found!.");
             return null;
         }
         return null;

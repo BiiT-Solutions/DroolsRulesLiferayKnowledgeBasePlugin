@@ -6,7 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.pf4j.Extension;
 
 import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
-import com.biit.drools.plugin.log.LiferaryArticlePluginLogger;
+import com.biit.drools.plugin.log.LiferayArticlePluginLogger;
 import com.biit.liferay.access.ArticleService;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
@@ -44,20 +44,20 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 		if (resourcePrimaryKey != null) {
 			try {
 				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
-				LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
+				LiferayArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
 				if (article != null) {
 					return formatArticle(article);
 				}
 			} catch (NotConnectedToWebServiceException | ClientProtocolException | AuthenticationRequired
 					| WebServiceAccessError e) {
-				LiferaryArticlePluginLogger.severe(this.getClass().getName(),
+				LiferayArticlePluginLogger.severe(this.getClass().getName(),
 						"Article '" + resourcePrimaryKey + "' not found!");
-				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+				LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
 				return ERROR_ARTICLE_TAG;
 			} catch (Exception e) {
-				LiferaryArticlePluginLogger.severe(this.getClass().getName(),
+				LiferayArticlePluginLogger.severe(this.getClass().getName(),
 						"Error retrieving article with id '" + resourcePrimaryKey + "'.");
-				LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+				LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
 				return ERROR_ARTICLE_TAG;
 			}
 		}
@@ -74,16 +74,16 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
 	 */
 	public String methodGetLatestArticleContentByProperty(String propertyTag) {
 		try {
-			LiferaryArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
+			LiferayArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
 			Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
-			LiferaryArticlePluginLogger.info(this.getClass().getName(),
+			LiferayArticlePluginLogger.info(this.getClass().getName(),
 					"Primary key retrieved for '" + propertyTag + "' is '" + resourcePrimaryKey + "'.");
 			if (resourcePrimaryKey == null) {
 				return INVALID_ARTICLE_TAG;
 			}
 			return methodGetLatestArticleContent((double) resourcePrimaryKey);
 		} catch (Exception e) {
-			LiferaryArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+			LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
 			return INVALID_ARTICLE_TAG;
 		}
 	}

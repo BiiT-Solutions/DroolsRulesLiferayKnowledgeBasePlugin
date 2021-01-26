@@ -5,10 +5,10 @@ import org.apache.log4j.Logger;
 /**
  * Defines basic log behavior. Uses log4j.properties.
  */
-public class LiferaryArticlePluginLogger {
-	private static final Logger logger = Logger.getLogger(LiferaryArticlePluginLogger.class);
+public class LiferayArticlePluginLogger {
+	private static final Logger logger = Logger.getLogger(LiferayArticlePluginLogger.class);
 
-	private LiferaryArticlePluginLogger() {
+	private LiferayArticlePluginLogger() {
 	}
 
 	/**
