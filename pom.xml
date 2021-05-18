@@ -40,8 +40,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
-		<developerConnection>scm:git:git.biit-solutions.com:DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
+		<connection>scm:git:git.biit-solutions.com:BiiT/DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
+		<connection>scm:git:git.biit-solutions.com:BiiT/DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
 		<tag>liferay-knowledge-base-0.3.12</tag>
 	</scm>
 
