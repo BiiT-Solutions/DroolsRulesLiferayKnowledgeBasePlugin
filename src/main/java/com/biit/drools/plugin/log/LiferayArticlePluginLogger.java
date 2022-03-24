@@ -1,12 +1,14 @@
 package com.biit.drools.plugin.log;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Defines basic log behavior. Uses log4j.properties.
  */
 public class LiferayArticlePluginLogger {
-	private static final Logger logger = Logger.getLogger(LiferayArticlePluginLogger.class);
+	private static final Logger logger = LoggerFactory.getLogger(LiferayArticlePluginLogger.class);
 
 	private LiferayArticlePluginLogger() {
 	}
