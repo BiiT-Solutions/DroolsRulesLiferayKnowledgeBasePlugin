@@ -2,6 +2,7 @@ package com.biit.drools.plugin;
 
 import com.biit.drools.plugin.log.LiferayArticlePluginLogger;
 import com.biit.liferay.access.ArticleService;
+import com.biit.liferay.access.exceptions.ArticleNotFoundException;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
 import com.biit.liferay.model.IArticle;
@@ -38,15 +39,15 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     }
 
     /**
-     * Gets an article by its Liferay primary key.S
+     * Gets an article by its Liferay primary key.
      *
      * @param resourcePrimaryKey Liferay Ids of the article.
      * @return the article
      */
-    public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
+    public String methodGetLatestArticleContent(Integer resourcePrimaryKey) {
         if (resourcePrimaryKey != null) {
             try {
-                IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+                IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey);
                 LiferayArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
                 if (article != null) {
                     return formatArticle(article);
@@ -57,6 +58,10 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
                         "Article '" + resourcePrimaryKey + "' not found!");
                 LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
                 return ERROR_ARTICLE_TAG;
+            } catch (ArticleNotFoundException e) {
+                LiferayArticlePluginLogger.severe(this.getClass().getName(),
+                        "Article with id '" + resourcePrimaryKey + "' not found.");
+                return String.format("<Article with id '%d' not found on Liferay>", resourcePrimaryKey);
             } catch (Exception e) {
                 LiferayArticlePluginLogger.severe(this.getClass().getName(),
                         "Error retrieving article with id '" + resourcePrimaryKey + "'.");
@@ -84,7 +89,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
             if (resourcePrimaryKey == null) {
                 return INVALID_ARTICLE_TAG;
             }
-            return methodGetLatestArticleContent((double) resourcePrimaryKey);
+            return methodGetLatestArticleContent(resourcePrimaryKey);
         } catch (Exception e) {
             LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
             return INVALID_ARTICLE_TAG;
@@ -99,7 +104,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
         }
     }
 
-    private Integer getArticleId(String articleTag){
+    private Integer getArticleId(String articleTag) {
         //Check if property exists.
         try {
             String propertyValue = pluginConfigurationReader.getPropertyValue(articleTag);
