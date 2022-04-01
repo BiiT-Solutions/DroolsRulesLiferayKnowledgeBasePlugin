@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 @SpringBootApplication
+@ComponentScan("com.biit.plugins")
 @Service
 public class LiferayArticleServer {
 

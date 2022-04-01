@@ -1,12 +1,12 @@
 package com.biit.drools.plugin;
 
-import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
 import com.biit.drools.plugin.log.LiferayArticlePluginLogger;
 import com.biit.liferay.access.ArticleService;
 import com.biit.liferay.access.exceptions.NotConnectedToWebServiceException;
 import com.biit.liferay.access.exceptions.WebServiceAccessError;
 import com.biit.liferay.model.IArticle;
 import com.biit.plugins.BasePlugin;
+import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.plugins.interfaces.IPlugin;
 import com.biit.plugins.logger.PluginManagerLogger;
 import com.biit.usermanager.security.exceptions.AuthenticationRequired;
@@ -22,7 +22,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     private static final String NAME = "liferay-article";
     private ArticleService knowledgeBaseService;
 
-    private final LiferayPluginConfigurationReader liferayPluginConfigurationReader;
+    private final PluginConfigurationReader pluginConfigurationReader;
 
     @Override
     public String getPluginName() {
@@ -30,9 +30,9 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     }
 
     @Autowired
-    public LiferayArticle(LiferayPluginConfigurationReader liferayPluginConfigurationReader) {
+    public LiferayArticle(PluginConfigurationReader pluginConfigurationReader) {
         super();
-        this.liferayPluginConfigurationReader = liferayPluginConfigurationReader;
+        this.pluginConfigurationReader = pluginConfigurationReader;
         knowledgeBaseService = new ArticleService();
         knowledgeBaseService.serverConnection();
     }
@@ -102,7 +102,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     private Integer getArticleId(String articleTag){
         //Check if property exists.
         try {
-            String propertyValue = liferayPluginConfigurationReader.getPropertyValue(articleTag);
+            String propertyValue = pluginConfigurationReader.getPropertyValue(articleTag);
             try {
                 return Integer.parseInt(propertyValue);
             } catch (NumberFormatException e) {
@@ -119,6 +119,6 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     }
 
     public boolean isArticleHeaderEnabled() {
-        return Boolean.parseBoolean(liferayPluginConfigurationReader.getPropertyValue(ID_INCLUDE_ARTICLE_HEADER));
+        return Boolean.parseBoolean(pluginConfigurationReader.getPropertyValue(ID_INCLUDE_ARTICLE_HEADER));
     }
 }

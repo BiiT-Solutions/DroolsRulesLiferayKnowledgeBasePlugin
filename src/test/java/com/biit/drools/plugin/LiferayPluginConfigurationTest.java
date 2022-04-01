@@ -1,6 +1,6 @@
 package com.biit.drools.plugin;
 
-import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
+import com.biit.plugins.configuration.PluginConfigurationReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -8,14 +8,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SpringBootTest
-@Test(groups = { "liferayPluginsTest" })
+@Test(groups = {"liferayPluginsTest"})
 public class LiferayPluginConfigurationTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    private LiferayPluginConfigurationReader liferayPluginConfigurationReader;
+    private PluginConfigurationReader pluginConfigurationReader;
 
     @Test
-    public void loadFms(){
-        Assert.assertEquals(liferayPluginConfigurationReader.getArticleId("fms-goal-text"), Integer.valueOf(44006));
+    public void loadFms() {
+        Assert.assertEquals(pluginConfigurationReader.getProperty("fms-goal-text"), "44006");
     }
 }
