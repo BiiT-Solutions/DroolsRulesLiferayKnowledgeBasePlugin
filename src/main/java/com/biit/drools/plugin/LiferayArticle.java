@@ -1,10 +1,5 @@
 package com.biit.drools.plugin;
 
-import java.util.List;
-
-import org.apache.http.client.ClientProtocolException;
-import org.pf4j.Extension;
-
 import com.biit.drools.plugin.configuration.LiferayPluginConfigurationReader;
 import com.biit.drools.plugin.log.LiferayArticlePluginLogger;
 import com.biit.liferay.access.ArticleService;
@@ -13,95 +8,117 @@ import com.biit.liferay.access.exceptions.WebServiceAccessError;
 import com.biit.liferay.model.IArticle;
 import com.biit.plugins.BasePlugin;
 import com.biit.plugins.interfaces.IPlugin;
+import com.biit.plugins.logger.PluginManagerLogger;
 import com.biit.usermanager.security.exceptions.AuthenticationRequired;
-import com.biit.utils.configuration.IPropertiesSource;
+import org.apache.http.client.ClientProtocolException;
+import org.pf4j.Extension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Extension
 public class LiferayArticle extends BasePlugin implements IPlugin {
-	private static final String INVALID_ARTICLE_TAG = "<undefined>";
-	private static final String ERROR_ARTICLE_TAG = "<error>";
-	private static final String NAME = "liferay-article";
-	private ArticleService knowledgeBaseService;
+    private static final String ID_INCLUDE_ARTICLE_HEADER = "article.header";
+    private static final String INVALID_ARTICLE_TAG = "<undefined>";
+    private static final String ERROR_ARTICLE_TAG = "<error>";
+    private static final String NAME = "liferay-article";
+    private ArticleService knowledgeBaseService;
 
-	@Override
-	public String getPluginName() {
-		return NAME;
-	}
+    private final LiferayPluginConfigurationReader liferayPluginConfigurationReader;
 
-	public LiferayArticle() {
-		super();
-		knowledgeBaseService = new ArticleService();
-		knowledgeBaseService.serverConnection();
-	}
+    @Override
+    public String getPluginName() {
+        return NAME;
+    }
 
-	/**
-	 * Gets an article by its Liferay primary key.S
-	 * 
-	 * @param resourcePrimaryKey Liferay Ids of the article.
-	 * @return the article
-	 */
-	public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
-		if (resourcePrimaryKey != null) {
-			try {
-				IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
-				LiferayArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
-				if (article != null) {
-					return formatArticle(article);
-				}
-			} catch (NotConnectedToWebServiceException | ClientProtocolException | AuthenticationRequired
-					| WebServiceAccessError e) {
-				LiferayArticlePluginLogger.severe(this.getClass().getName(),
-						"Article '" + resourcePrimaryKey + "' not found!");
-				LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
-				return ERROR_ARTICLE_TAG;
-			} catch (Exception e) {
-				LiferayArticlePluginLogger.severe(this.getClass().getName(),
-						"Error retrieving article with id '" + resourcePrimaryKey + "'.");
-				LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
-				return ERROR_ARTICLE_TAG;
-			}
-		}
-		return INVALID_ARTICLE_TAG;
-	}
+    @Autowired
+    public LiferayArticle(LiferayPluginConfigurationReader liferayPluginConfigurationReader) {
+        super();
+        this.liferayPluginConfigurationReader = liferayPluginConfigurationReader;
+        knowledgeBaseService = new ArticleService();
+        knowledgeBaseService.serverConnection();
+    }
 
-	/**
-	 * Returns an article by a property value. The property must be mapped in the
-	 * settings.conf as a unique identificator with the Liferay primary key. I.e.
-	 * "Article1=25600"
-	 * 
-	 * @param propertyTag a string that identifies the article.
-	 * @return the article text.
-	 */
-	public String methodGetLatestArticleContentByProperty(String propertyTag) {
-		try {
-			LiferayArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
-			Integer resourcePrimaryKey = LiferayPluginConfigurationReader.getInstance().getArticleId(propertyTag);
-			LiferayArticlePluginLogger.info(this.getClass().getName(),
-					"Primary key retrieved for '" + propertyTag + "' is '" + resourcePrimaryKey + "'.");
-			if (resourcePrimaryKey == null) {
-				return INVALID_ARTICLE_TAG;
-			}
-			return methodGetLatestArticleContent((double) resourcePrimaryKey);
-		} catch (Exception e) {
-			LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
-			return INVALID_ARTICLE_TAG;
-		}
-	}
+    /**
+     * Gets an article by its Liferay primary key.S
+     *
+     * @param resourcePrimaryKey Liferay Ids of the article.
+     * @return the article
+     */
+    public String methodGetLatestArticleContent(Double resourcePrimaryKey) {
+        if (resourcePrimaryKey != null) {
+            try {
+                IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey.longValue());
+                LiferayArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
+                if (article != null) {
+                    return formatArticle(article);
+                }
+            } catch (NotConnectedToWebServiceException | ClientProtocolException | AuthenticationRequired
+                    | WebServiceAccessError e) {
+                LiferayArticlePluginLogger.severe(this.getClass().getName(),
+                        "Article '" + resourcePrimaryKey + "' not found!");
+                LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+                return ERROR_ARTICLE_TAG;
+            } catch (Exception e) {
+                LiferayArticlePluginLogger.severe(this.getClass().getName(),
+                        "Error retrieving article with id '" + resourcePrimaryKey + "'.");
+                LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+                return ERROR_ARTICLE_TAG;
+            }
+        }
+        return INVALID_ARTICLE_TAG;
+    }
 
-	private String formatArticle(IArticle<Long> article) {
-		if (LiferayPluginConfigurationReader.getInstance().isArticleHeaderEnabled()) {
-			return article.getTitle() + "\n" + article.getContent();
-		} else {
-			return article.getContent();
-		}
-	}
+    /**
+     * Returns an article by a property value. The property must be mapped in the
+     * settings.conf as a unique identificator with the Liferay primary key. I.e.
+     * "Article1=25600"
+     *
+     * @param propertyTag a string that identifies the article.
+     * @return the article text.
+     */
+    public String methodGetLatestArticleContentByProperty(String propertyTag) {
+        try {
+            LiferayArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
+            Integer resourcePrimaryKey = getArticleId(propertyTag);
+            LiferayArticlePluginLogger.info(this.getClass().getName(),
+                    "Primary key retrieved for '" + propertyTag + "' is '" + resourcePrimaryKey + "'.");
+            if (resourcePrimaryKey == null) {
+                return INVALID_ARTICLE_TAG;
+            }
+            return methodGetLatestArticleContent((double) resourcePrimaryKey);
+        } catch (Exception e) {
+            LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
+            return INVALID_ARTICLE_TAG;
+        }
+    }
 
-	/**
-	 * Enable the properties list to be use as a plugin.
-	 * 
-	 * @return gets all properties sources.
-	 */
-	public List<IPropertiesSource> methodGetPropertiesSources() {
-		return LiferayPluginConfigurationReader.getInstance().getPropertiesSources();
-	}
+    private String formatArticle(IArticle<Long> article) {
+        if (isArticleHeaderEnabled()) {
+            return article.getTitle() + "\n" + article.getContent();
+        } else {
+            return article.getContent();
+        }
+    }
+
+    private Integer getArticleId(String articleTag){
+        //Check if property exists.
+        try {
+            String propertyValue = liferayPluginConfigurationReader.getPropertyValue(articleTag);
+            try {
+                return Integer.parseInt(propertyValue);
+            } catch (NumberFormatException e) {
+                PluginManagerLogger.warning(this.getClass().getName(),
+                        "Invalid number '" + propertyValue + "' for article '" + articleTag + "'.");
+            } catch (Exception e) {
+                PluginManagerLogger.warning(this.getClass().getName(),
+                        "Invalid article '" + articleTag + "' or not found in any settings file.");
+            }
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        return null;
+    }
+
+    public boolean isArticleHeaderEnabled() {
+        return Boolean.parseBoolean(liferayPluginConfigurationReader.getPropertyValue(ID_INCLUDE_ARTICLE_HEADER));
+    }
 }
