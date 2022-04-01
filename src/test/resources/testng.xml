@@ -5,11 +5,13 @@
             <run>
                 <include name="liferayPluginsTest" />
                 <include name="systemVariable" />
+                <include name="folderSettings" />
             </run>
         </groups>
         <classes>
             <class name="com.biit.drools.plugin.LiferayPluginConfigurationTest" />
             <class name="com.biit.drools.plugin.LiferaySystemPluginConfigurationTest" />
+            <class name="com.biit.drools.plugin.LiferaySameFolderPluginConfigurationTest" />
         </classes>
     </test>
 </suite>

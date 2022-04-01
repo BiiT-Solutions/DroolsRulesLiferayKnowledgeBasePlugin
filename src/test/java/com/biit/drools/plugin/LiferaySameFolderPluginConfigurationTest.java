@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
-@Test(groups = {"systemVariable"})
-public class LiferaySystemPluginConfigurationTest extends AbstractTestNGSpringContextTests {
+@Test(groups = {"folderSettings"})
+public class LiferaySameFolderPluginConfigurationTest extends AbstractTestNGSpringContextTests {
     private static File tempFile;
 
     static {
@@ -27,8 +27,6 @@ public class LiferaySystemPluginConfigurationTest extends AbstractTestNGSpringCo
             //Add content to temp file
             List<String> lines = Arrays.asList("Appendix-Antropometrie2=54006", "fms-goal-text2=54006");
             Files.write(tempFile.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-            //Set the system environment.
-            System.setProperty(PluginConfigurationReader.SYSTEM_VARIABLE_PLUGINS_CONFIG_FOLDER, tempFile.getParent());
         } catch (IOException e) {
             e.printStackTrace();
         }
