@@ -28,7 +28,8 @@ public class LiferaySystemPluginConfigurationTest extends AbstractTestNGSpringCo
             List<String> lines = Arrays.asList("Appendix-Antropometrie2=54006", "fms-goal-text2=54006");
             Files.write(tempFile.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
             //Set the system environment.
-            System.setProperty(PluginConfigurationReader.SYSTEM_VARIABLE, tempFile.toString());
+            System.setProperty(PluginConfigurationReader.SYSTEM_VARIABLE_PLUGINS_CONFIG_FOLDER, tempFile.getParent());
+            System.setProperty(PluginConfigurationReader.SYSTEM_VARIABLE_PLUGINS_CONFIG_FILES, tempFile.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
