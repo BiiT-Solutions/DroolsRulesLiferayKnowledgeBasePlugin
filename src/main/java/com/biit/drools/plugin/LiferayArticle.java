@@ -11,12 +11,9 @@ import com.biit.plugins.configuration.PluginConfigurationReader;
 import com.biit.plugins.interfaces.IPlugin;
 import com.biit.plugins.logger.PluginManagerLogger;
 import com.biit.usermanager.security.exceptions.AuthenticationRequired;
-import com.biit.utils.configuration.IPropertiesSource;
 import org.apache.http.client.ClientProtocolException;
 import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @Extension
 public class LiferayArticle extends BasePlugin implements IPlugin {
