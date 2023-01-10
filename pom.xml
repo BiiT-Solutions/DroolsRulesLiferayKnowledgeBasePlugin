@@ -4,7 +4,7 @@
 	<groupId>com.biit.drools.plugins</groupId>
 	<artifactId>liferay-knowledge-base</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3.66</version>
+	<version>0.3.67-SNAPSHOT</version>
 	<name>Liferay Knowledge Base Access For Drools Rules</name>
 
 	<parent>
@@ -39,7 +39,7 @@
 	<scm>
 		<connection>scm:git:git.biit-solutions.com:BiiT/DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
 		<developerConnection>scm:git:git.biit-solutions.com:BiiT/DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
-		<tag>liferay-knowledge-base-0.3.66</tag>
+		<tag>drools-plugin-liferay-knowledge-base</tag>
 	</scm>
 
 	<dependencies>
