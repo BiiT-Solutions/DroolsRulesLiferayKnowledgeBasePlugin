@@ -37,8 +37,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git.biit-solutions.com:BiiT/DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
-		<developerConnection>scm:git:git.biit-solutions.com:BiiT/DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
+		<connection>scm:git:git.biit-solutions.com:Java/DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
+		<developerConnection>scm:git:git.biit-solutions.com:Java/DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
 		<tag>drools-plugin-liferay-knowledge-base</tag>
 	</scm>
 
