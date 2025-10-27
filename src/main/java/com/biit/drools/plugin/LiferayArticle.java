@@ -1,5 +1,26 @@
 package com.biit.drools.plugin;
 
+/*-
+ * #%L
+ * Liferay Knowledge Base Access For Drools Rules
+ * %%
+ * Copyright (C) 2022 - 2025 BiiT Sourcing Solutions S.L.
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * #L%
+ */
+
 import com.biit.drools.plugin.log.LiferayArticlePluginLogger;
 import com.biit.liferay.access.ArticleService;
 import com.biit.liferay.access.exceptions.ArticleNotFoundException;
@@ -52,13 +73,13 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     public String methodGetLatestArticleContent(Integer resourcePrimaryKey) {
         if (resourcePrimaryKey != null) {
             try {
-                IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey);
+                final IArticle<Long> article = knowledgeBaseService.getLatestArticle(resourcePrimaryKey);
                 LiferayArticlePluginLogger.debug(this.getClass().getName(), "Article retrieved '" + article + "'.");
                 if (article != null) {
                     return formatArticle(article);
                 }
             } catch (NotConnectedToWebServiceException | ClientProtocolException | AuthenticationRequired
-                    | WebServiceAccessError e) {
+                     | WebServiceAccessError e) {
                 LiferayArticlePluginLogger.severe(this.getClass().getName(),
                         "Article '" + resourcePrimaryKey + "' not found!");
                 LiferayArticlePluginLogger.errorMessage(this.getClass().getName(), e);
@@ -88,7 +109,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     public String methodGetLatestArticleContentByProperty(String propertyTag) {
         try {
             LiferayArticlePluginLogger.debug(this.getClass().getName(), "Getting article for '" + propertyTag + "'.");
-            Integer resourcePrimaryKey = getArticleId(propertyTag);
+            final Integer resourcePrimaryKey = getArticleId(propertyTag);
             LiferayArticlePluginLogger.info(this.getClass().getName(),
                     "Primary key retrieved for '" + propertyTag + "' is '" + resourcePrimaryKey + "'.");
             if (resourcePrimaryKey == null) {
@@ -112,7 +133,7 @@ public class LiferayArticle extends BasePlugin implements IPlugin {
     private Integer getArticleId(String articleTag) {
         //Check if property exists.
         try {
-            String propertyValue = pluginConfigurationReader.getPropertyValue(articleTag);
+            final String propertyValue = pluginConfigurationReader.getPropertyValue(articleTag);
             try {
                 return Integer.parseInt(propertyValue);
             } catch (NumberFormatException e) {

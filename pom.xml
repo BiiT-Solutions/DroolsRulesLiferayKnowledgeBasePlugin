@@ -1,128 +1,169 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.biit.drools.plugins</groupId>
-	<artifactId>liferay-knowledge-base</artifactId>
-	<packaging>jar</packaging>
-	<version>0.3.120-SNAPSHOT</version>
-	<name>Liferay Knowledge Base Access For Drools Rules</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.biit-solutions.drools.plugins</groupId>
+    <artifactId>liferay-knowledge-base</artifactId>
+    <packaging>jar</packaging>
+    <version>0.3.120-SNAPSHOT</version>
+    <name>Liferay Knowledge Base Access For Drools Rules</name>
 
-	<parent>
-		<groupId>com.biit</groupId>
-		<artifactId>versions</artifactId>
-		<version>[0.1,0.2)</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>com.biit-solutions</groupId>
+        <artifactId>versions</artifactId>
+        <version>[1.0,1.1)</version>
+        <relativePath /> <!-- lookup parent from repository -->
+    </parent>
 
-	<properties>
-		<!-- Plugin definition -->
-		<plugin.id>liferay-article</plugin.id>
-		<plugin.class>com.biit.drools.plugin.LiferayArticlePlugin</plugin.class>
-		<plugin.version>${project.version}</plugin.version>
-		<plugin.provider>BiiT Solutions</plugin.provider>
-		<plugin.dependencies />
-	</properties>
+    <licenses>
+        <license>
+            <name>GNU AGPL v3</name>
+            <url>https://www.gnu.org/licenses/agpl-3.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>libs-releases</name>
-			<url>https://artifactory.biit-solutions.com/artifactory/libs-release</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>libs-snapshot</name>
-			<url>https://artifactory.biit-solutions.com/artifactory/libs-snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <organization>
+        <name>BiiT Sourcing Solutions S.L.</name>
+        <url>https://www.biit-solutions.com/</url>
+    </organization>
 
-	<scm>
-		<connection>scm:git:git.biit-solutions.com:Java/DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
-		<developerConnection>scm:git:git.biit-solutions.com:Java/DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
-		<tag>drools-plugin-liferay-knowledge-base</tag>
-	</scm>
+    <properties>
+        <!-- Plugin definition -->
+        <plugin.id>liferay-article</plugin.id>
+        <plugin.class>com.biit.drools.plugin.LiferayArticlePlugin</plugin.class>
+        <plugin.version>${project.version}</plugin.version>
+        <plugin.provider>BiiT Solutions</plugin.provider>
+        <plugin.dependencies/>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.biit</groupId>
-			<artifactId>plugin-manager-core</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.biit.liferay</groupId>
-			<artifactId>liferay-knowledge-base</artifactId>
-		</dependency>
-		<!-- Testing -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<!-- if this is not excluded and 'spring-boot-starter-log4j2' enabled,
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/BiiT-Solutions/DroolsRulesLiferayKnowledgeBasePlugin</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com/BiiT-Solutions/DroolsRulesLiferayKnowledgeBasePlugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/BiiT-Solutions/DroolsRulesLiferayKnowledgeBasePlugin.git</developerConnection>
+        <url>https://github.com/BiiT-Solutions/DroolsRulesLiferayKnowledgeBasePlugin.git</url>
+        <tag>drools-plugin-liferay-knowledge-base</tag>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.biit-solutions.drools</groupId>
+            <artifactId>plugin-manager-core</artifactId>
+            <version>${plugin-manager.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.biit-solutions.liferay</groupId>
+            <artifactId>liferay-knowledge-base</artifactId>
+        </dependency>
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <!-- if this is not excluded and 'spring-boot-starter-log4j2' enabled,
                 testng causes a 'Cannot instantiate class' for all tests -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<!-- Include dependencies inside the JAR -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${maven-assembly-plugin.version}</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<finalName>${plugin.id}-plugin</finalName>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<!-- PF4J: Mandatory to register the plugin. -->
-						<manifestEntries>
-							<Plugin-Id>${plugin.id}</Plugin-Id>
-							<Plugin-Version>${plugin.version}</Plugin-Version>
-							<Plugin-Provider>${plugin.provider}</Plugin-Provider>
-							<Plugin-Class>${plugin.class}</Plugin-Class>
-							<Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
-						</manifestEntries>
-					</archive>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-						<phase>package</phase> <!-- bind to the packaging phase -->
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surefire.version}</version>
-					<configuration>
-						<useFile>false</useFile>
-						<trimStackTrace>false</trimStackTrace>
-						<suiteXmlFiles>
-							<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-						</suiteXmlFiles>
-						<useSystemClassLoader>false</useSystemClassLoader>
-					</configuration>
-				</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <!-- Include dependencies inside the JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${plugin.id}-plugin</finalName>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                        <!-- PF4J: Mandatory to register the plugin. -->
+                        <manifestEntries>
+                            <Plugin-Id>${plugin.id}</Plugin-Id>
+                            <Plugin-Version>${plugin.version}</Plugin-Version>
+                            <Plugin-Provider>${plugin.provider}</Plugin-Provider>
+                            <Plugin-Class>${plugin.class}</Plugin-Class>
+                            <Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire.version}</version>
+                <configuration>
+                    <useFile>false</useFile>
+                    <trimStackTrace>false</trimStackTrace>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <configuration>
+                    <organizationName>BiiT Sourcing Solutions S.L.</organizationName>
+                    <inceptionYear>2022</inceptionYear>
+                    <licenseName>agpl_v3</licenseName>
+                    <excludes>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.xhtml</exclude>
+                        <exclude>**/*.json</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
